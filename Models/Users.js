@@ -6,8 +6,9 @@ class Users extends Model{}
 Users.init({
     id:{
         type: DataTypes.INTEGER,
+        primaryKey: true,
         autoIncrement: true,
-        primaryKey: true
+        allowNull: false,
     },
     email:{
         type: DataTypes.STRING(100),
@@ -30,4 +31,4 @@ Users.init({
     sequelize
 });
 
-export { Users };
+module.exports = { Users };

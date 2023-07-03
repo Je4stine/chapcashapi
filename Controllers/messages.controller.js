@@ -4,18 +4,18 @@ const router = express.Router();
 const { Messages} = require('../Models/Messages');
 
 
-router.get('/api/allMessages', async (req, res)=>{
+exports.allMessages =async (req, res)=>{
     try{
         const messages = await Messages.findAll();
         res.json(messages)
     }catch(error){
         res.status(500).json({message: "Internal Server error"})
     }
-});
+};
 
-router.get('/api/complete', async(req, res)=>{
+exports.complete = async(req, res)=>{
         try{
-            const completed = Messages.findAll({
+            const completed = await Messages.findAll({
                 where: {
                     Msgstatus: true
                 }
@@ -25,10 +25,10 @@ router.get('/api/complete', async(req, res)=>{
         }catch(error){
             res.status(500).json({message: 'Error geting completed Messages'})
         }
-});
+};
 
 
-router.get('/api/pending', async (req, res)=>{
+exports.pending = async (req, res)=>{
     try{
         const pending = await Messages.findAll({
             where:{
@@ -37,8 +37,24 @@ router.get('/api/pending', async (req, res)=>{
         });
         res.json(pending);
     }catch(error){
+        console.log(error)
         res.status(500).json({ message: 'Error getting pending Messages'})
     }
-});
+};
+
+exports.add = async (req, res)=>{
+    try{
+        const {TransID, TransTime, MSISDN, TransAmount, FirstName,BillRefNumber, Msgstatus}=req.body
+        const add = await Messages.create({
+            TransID, TransTime, MSISDN, TransAmount, FirstName,BillRefNumber, Msgstatus,
+        });
+
+        res.status(200).json(add)
+
+    }catch(error){
+        console.log(error)
+        res.status(500).json({message: 'Error adding messages'})
+    }
+}
 
 

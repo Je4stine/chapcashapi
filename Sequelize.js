@@ -16,4 +16,4 @@ try {
     console.error('Unable to connect to database', error);
 }
 
-export {sequelize};
+module.exports = {sequelize};

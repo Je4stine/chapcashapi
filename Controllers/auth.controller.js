@@ -4,37 +4,39 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-router.post('/api/signup', async (req, res)=>{
-    try{
-        const {password, email} = req.body;
-
-        const existingUser = Users.findOne({
-            where: email
-        });
-
-        if (existingUser){
-            res.status(409).json({error: 'User already exists'})
-        }
-        
-        const hashPassword = (await bcrypt.hash(password, 10)).toString();
-
-        const user = Users.create({
-            email,
-            password: hashPassword
-        });
-
-        res.json(user)
-    }catch(error){
-        res.status(500).json({message: "Internal server Error"})
+exports.signup = async (req, res) => {
+    try {
+      const { password, email } = req.body;
+  
+      const existingUser = await Users.findOne({
+        where: {
+          email,
+        },
+      });
+  
+      if (existingUser) {
+        return res.status(409).json({ error: 'User already exists' });
+      }
+  
+      const hashPassword = (await bcrypt.hash(password, 10)).toString();
+  
+      const user = await Users.create({
+        email,
+        password: hashPassword,
+      });
+  
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server Error' });
     }
-});
+  };
 
 
-router.post('/api/signin', async (req, res)=>{
+exports.signin = async (req, res)=>{
     try{
         const {email, password}= req.body
 
-        const user = Users.findOne({
+        const user = await Users.findOne({
             where:{
                 email
             }
@@ -53,18 +55,18 @@ router.post('/api/signin', async (req, res)=>{
             expiresIn: '1h'
         });
 
-        res.json({ message: 'Login sucessfull'})
+        res.json({ token, message:"Login success", user:user.email})
     }catch(error){
         res.status(500).json({ message: "Internal server error"})
     }
-});
+};
 
 
-router.post('/api/changePassword', async (req, res)=>{
+exports.changePassword = async (req, res)=>{
     try{
         const { email, currentPassword, newPassword}= req.body
 
-        const user = Users.findOne({
+        const user = await Users.findOne({
             where: email
         })
 
@@ -92,9 +94,5 @@ router.post('/api/changePassword', async (req, res)=>{
     }catch(error){
         res.status(500).json({ error: 'Server error'})
     }
-});
+};
 
-
-
-
-module.exports = router;

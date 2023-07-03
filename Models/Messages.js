@@ -5,9 +5,10 @@ class Messages extends Model{};
 
 Messages.init({
     id:{
-        type: DataTypes.STRING(100),
-        allowNull: true,
-        primaryKey: true
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
     },
     TransID:{
         type: DataTypes.STRING(100),
@@ -22,7 +23,7 @@ Messages.init({
         allowNull:true
     },
     TransAmount:{
-        types: DataTypes.STRING(100),
+        type: DataTypes.INTEGER,
         allowNull:true
     },
     FirstName:{
@@ -34,15 +35,16 @@ Messages.init({
         allowNull:true
     },
     Msgstatus:{
-        type:DataTypes.STRING(100),
-        allowNull:true
+        type:DataTypes.BOOLEAN,
+        allowNull:true,
+        defaultValue: false,
     }
 }, {
     sequelize,
-    tableName: 'messages',
+    tableName: 'Messages',
  
   }
 
 );
 
-export { Messages };
+module.exports = { Messages };
