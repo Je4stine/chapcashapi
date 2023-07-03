@@ -22,7 +22,7 @@ app.post('/api/reset', AuthController.changePassword);
 app.get('/api/allMessages', MessageController.allMessages);
 app.get('/api/complete', MessageController.complete);
 app.get('/api/pending', MessageController.pending);
-app.post('/api/add',MessageController.add);
+app.post('/api/add', MessageController.add);
 
 app.get('/', (req, res)=>{
     res.send("<h1> App running </h1>")
