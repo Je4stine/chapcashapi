@@ -19,7 +19,11 @@ Users.init({
         allowNull: false
     },
     imageUrl:{
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(200),
+        allowNull:true
+    },
+    image:{
+        type: DataTypes.STRING(200),
         allowNull:true
     },
     role:{

@@ -23,6 +23,7 @@ app.get('/api/allMessages', MessageController.allMessages);
 app.get('/api/complete', MessageController.complete);
 app.get('/api/pending', MessageController.pending);
 app.post('/api/add', MessageController.add);
+app.put('/api/confirm', MessageController.confirm);
 
 app.get('/', (req, res)=>{
     res.send("<h1> App running </h1>")

@@ -67,7 +67,7 @@ exports.changePassword = async (req, res)=>{
         const { email, currentPassword, newPassword}= req.body
 
         const user = await Users.findOne({
-            where: email
+            where:  { email: email },
         })
 
         if(!user){
