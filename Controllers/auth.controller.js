@@ -57,7 +57,7 @@ exports.signin = async (req, res)=>{
 
         res.json({ token, message:"Login success", user:user.email})
     }catch(error){
-        res.status(500).json({ message: "Internal server error"})
+        res.status(500).json(error)
     }
 };
 
@@ -92,7 +92,7 @@ exports.changePassword = async (req, res)=>{
         res.json({ message: 'Password changed successfully'})
 
     }catch(error){
-        res.status(500).json({ error: 'Server error'})
+        res.status(500).json(error)
     }
 };
 
