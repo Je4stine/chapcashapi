@@ -104,3 +104,13 @@ exports.changePassword = async (req, res)=>{
     }
 };
 
+
+exports.getUsers = async (req, res)=>{
+  try{
+    const allUser = await Users.findAll()
+    res.json(allUser);
+
+  }catch(error){
+    res.status(500).json(error)
+  }
+}

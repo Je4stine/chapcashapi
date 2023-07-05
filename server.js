@@ -18,6 +18,7 @@ app.use(Express.urlencoded({ extended: true }));
 app.post('/api/signin', AuthController.signin);
 app.post('/api/signup', AuthController.signup);
 app.post('/api/reset', AuthController.changePassword);
+app.get('/api/getall', AuthController.getUsers);
 
 app.get('/api/allMessages', MessageController.allMessages);
 app.get('/api/complete', MessageController.complete);
