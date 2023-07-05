@@ -25,7 +25,27 @@ module.exports = {
     image:{
       type: Sequelize.STRING(200),
       allowNull:true
-  },
+    },
+    name:{
+      type: Sequelize.STRING(100),
+      allowNull: true
+    },
+    phonenumber:{
+        type: Sequelize.STRING(100),
+        allowNull: true
+    },
+    shopcode:{
+        type: Sequelize.STRING(100),
+        allowNull: true
+    },
+    till:{
+        type: Sequelize.STRING(100),
+        allowNull: true
+    },
+    organization:{
+        type: Sequelize.STRING(100),
+        allowNull: true
+    },
     role:{
         type: Sequelize.STRING(50)
     },

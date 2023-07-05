@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 exports.signup = async (req, res) => {
     try {
-      const { password, email } = req.body;
+      const { password, email, name, phonenumber, shopcode, till, organization, role } = req.body;
   
       const existingUser = await Users.findOne({
         where: {
@@ -23,6 +23,7 @@ exports.signup = async (req, res) => {
       const user = await Users.create({
         email,
         password: hashPassword,
+        name, phonenumber, shopcode, till, organization, role
       });
   
       res.json(user);
@@ -32,34 +33,41 @@ exports.signup = async (req, res) => {
   };
 
 
-exports.signin = async (req, res)=>{
-    try{
-        const {email, password}= req.body
 
-        const user = await Users.findOne({
-            where:{
-                email
-            }
-        });
-
-        if(!user){
-            res.status(401).json({ error: "User not Found"})
-        };
-        const validPassword = bcrypt.compareSync(password, user.password);
-
-        if(!validPassword){
-            res.status(401).json({ error: "Invalid password"})
-        }
-
-        const token = jwt.sign({ userId: user.id}, "Logintoken ", {
-            expiresIn: '1h'
-        });
-
-        res.json({ token, message:"Login success", user:user.email})
-    }catch(error){
-        res.status(500).json(error)
+  exports.signin = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+  
+      const user = await Users.findOne({
+        where: {
+          email,
+        },
+      });
+  
+      if (!user) {
+        return res
+          .status(401)
+          .json({ error: "Invalid password or username, please recheck or click Forgot password" });
+      }
+  
+      const validPassword = bcrypt.compareSync(password, user.password);
+  
+      if (!validPassword) {
+        return res
+          .status(401)
+          .json({ error: "Invalid password or username, please recheck or click Forgot password" });
+      }
+  
+      const token = jwt.sign({ userId: user.id }, "Logintoken ", {
+        expiresIn: "1h",
+      });
+  
+      res.json({ token, message: "Login success", user: user.email });
+    } catch (error) {
+      res.status(500).json(error);
     }
-};
+  };
+  
 
 
 exports.changePassword = async (req, res)=>{
