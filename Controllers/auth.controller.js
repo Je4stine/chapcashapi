@@ -55,7 +55,7 @@ exports.signup = async (req, res) => {
       if (!validPassword) {
         return res
           .status(401)
-          .json({ error: "Invalid password or username, please recheck or click Forgot password" });
+          .json({ error: "Invalid password, please recheck or click Forgot password" });
       }
   
       const token = jwt.sign({ userId: user.id }, "Logintoken ", {
