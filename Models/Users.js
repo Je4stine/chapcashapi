@@ -26,6 +26,10 @@ Users.init({
         type: DataTypes.STRING(200),
         allowNull:true
     },
+    originalName:{
+        type: DataTypes.STRING(200),
+        allowNull:true
+    },
     name:{
         type: DataTypes.STRING(100),
         allowNull: true
