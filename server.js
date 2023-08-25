@@ -72,12 +72,12 @@ app.post('/paymentDetails', async(req, res)=>{
       TransAmount, 
       FirstName, 
       BillRefNumber,
-      Msgstatus:status
+      Msgstatus:false
     });
 
-    res.status(200).json(
-      MessageAdd
-    );
+    res.status(200).json({
+      message:"Received"
+    });
 
     } catch(error){
       res.status(500).json({
