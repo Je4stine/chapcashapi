@@ -59,10 +59,11 @@ exports.add = async (req, res)=>{
 
 
 exports.confirm = async(req, res)=>{
-    const {id} = req.body
+    const {id, user} = req.body
     try{
         const update = await Messages.findOne({ where: { id: id}});
         await update.update({Msgstatus: true});
+        await update.update({ConfirmedBy: user});
 
         res.status(200).json({message: 'Payment Confirmed'})
     }catch(error){
