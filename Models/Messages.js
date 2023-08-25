@@ -38,6 +38,10 @@ Messages.init({
         type:DataTypes.BOOLEAN,
         allowNull:true,
         defaultValue: false,
+    },
+    ConfirmedBy:{
+        type: DataTypes.STRING(200),
+        allowNull:true
     }
 }, {
     sequelize,

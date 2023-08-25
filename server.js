@@ -5,6 +5,7 @@ const multer = require('multer');
 const MessageController = require('./Controllers/messages.controller');
 const AuthController = require('./Controllers/auth.controller');
 const ImageController = require('./Controllers/images.controller');
+const Messages = require('./Models/Messages');
 
 
 const app = Express();
@@ -60,6 +61,31 @@ app.put('/api/confirm', MessageController.confirm);
 
 app.put('/api/users/:email/image', upload.single("image"), ImageController.addImageByUsername);
 app.post('/api/image/getImage', ImageController.getUser);
+
+app.post('/paymentDetails', async(req, res)=>{
+  try{
+    const {TransID, TransTime, MSISDN, TransAmount, FirstName, BillRefNumber, status }=req.body;
+    const MessageAdd = await Messages.create({
+      TransID, 
+      TransTime, 
+      MSISDN, 
+      TransAmount, 
+      FirstName, 
+      BillRefNumber,
+      Msgstatus:status
+    });
+
+    res.status(200).json(
+      MessageAdd
+    );
+
+    } catch(error){
+      res.status(500).json({
+        message: "Internal Server error"
+      })
+      console.log(error)
+  }
+})
 
 app.get('/', (req, res)=>{
     res.send("<h1> App running </h1>")
