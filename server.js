@@ -6,6 +6,8 @@ const MessageController = require('./Controllers/messages.controller');
 const AuthController = require('./Controllers/auth.controller');
 const ImageController = require('./Controllers/images.controller');
 const { Messages} = require('./Models/Messages');
+const Exceljs = require("exceljs");
+const { Op } = require('sequelize');
 
 
 const app = Express();
@@ -58,6 +60,7 @@ app.get('/api/complete', MessageController.complete);
 app.get('/api/pending', MessageController.pending);
 app.post('/api/add', MessageController.add);
 app.put('/api/confirm', MessageController.confirm);
+app.put('/api/undo', MessageController.undo);
 
 app.put('/api/users/:email/image', upload.single("image"), ImageController.addImageByUsername);
 app.post('/api/image/getImage', ImageController.getUser);
@@ -86,7 +89,83 @@ app.post('/paymentDetails', async(req, res)=>{
       })
       console.log(error)
   }
-})
+});
+
+
+app.get('/download-excel', async (req, res) => {
+  const todayFormatted = new Date().toLocaleDateString('en-US', {
+    month: '2-digit',
+    day: '2-digit'
+  });
+  
+    try{
+        const Data = await Messages.findAll();
+
+        // {
+        //   where: {
+        //     TransTime: {
+        //       [Op.like]: `${todayFormatted}%` // Use LIKE to match the beginning of the date
+        //     }
+        //   }
+        // }
+
+        const groupedData = Data.reduce((result, user) => {
+          const firstName = user.ConfirmedBy;
+          if (!result[firstName]) {
+            result[firstName] = [];
+          }
+          result[firstName].push(user);
+          return result;
+        }, {});
+
+        const workbook = new Exceljs.Workbook();
+        const worksheet = workbook.addWorksheet('Daily data');
+
+        Object.entries(groupedData).forEach(([firstName, data]) => {
+          // Add a header row for each group
+          worksheet.addRow([`Confirmed by: ${firstName}`]);
+
+          // Add column headers
+          worksheet.addRow(['TransID', 'TransTime', 'MSISDN', 'TransAmount', 'FirstName', 'BillRefNumber']);
+
+          // Add data rows for the group
+          data.forEach(user => {
+            worksheet.addRow([
+              user.TransID,
+              user.TransTime,
+              user.MSISDN,
+              user.TransAmount,
+              user.FirstName,
+              user.BillRefNumber
+            ]);
+          });
+
+          // Add an empty row to separate groups
+          worksheet.addRow([]);
+        });
+
+        // await workbook.xlsx.writeFile('dailydata.xlsx');
+
+        const excelFilePath = 'dailydata.xlsx';
+        await workbook.xlsx.writeFile(excelFilePath);
+    
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=dailydata.xlsx');
+    
+        const fileStream = fs.createReadStream(excelFilePath);
+        fileStream.pipe(res);
+    
+        fileStream.on('close', () => {
+          fs.unlinkSync(excelFilePath); // Delete the file after sending
+        });
+
+
+
+      }catch (error){
+        console.log(error)
+      }
+});
+
 
 app.get('/', (req, res)=>{
     res.send("<h1> App running </h1>")

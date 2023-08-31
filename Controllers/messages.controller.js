@@ -71,3 +71,17 @@ exports.confirm = async(req, res)=>{
     }
 };
 
+exports.undo = async(req, res)=>{
+    const {id, user} = req.body
+    try{
+        const update = await Messages.findOne({ where: { id: id}});
+        await update.update({Msgstatus: false});
+        await update.update({ConfirmedBy: user});
+
+        res.status(200).json({message: 'Payment Confirmed'})
+    }catch(error){
+        res.status(500).json({message: 'Error confirming messages'})
+    }
+};
+
+
