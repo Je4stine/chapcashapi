@@ -62,7 +62,7 @@ exports.signup = async (req, res) => {
         expiresIn: "1h",
       });
   
-      res.json({ token, message: "Login success", user: user.email, name: user.name, phone: user.phonenumber, image: user.image, url: user.imageUrl });
+      res.json({ token, message: "Login success", user: user.email, name: user.name, phone: user.phonenumber, image: user.image, url: user.imageUrl, role: user.role, shopcode: user.shopcode });
     } catch (error) {
       res.status(500).json(error);
     }

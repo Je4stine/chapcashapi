@@ -26,11 +26,11 @@ app.use('/uploads', Express.static(path.join(__dirname, 'uploads')));
 
 const storage = multer.diskStorage({
       destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // Specify the destination directory where files will be saved
+        cb(null, 'uploads/'); 
         },
         filename: function (req, file, cb) {
           const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-          cb(null, file.fieldname + '-' + uniqueSuffix); // Specify the filename for the uploaded file
+          cb(null, file.fieldname + '-' + uniqueSuffix); 
         },
       });
 

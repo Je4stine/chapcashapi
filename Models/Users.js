@@ -53,6 +53,11 @@ Users.init({
     role:{
         type: DataTypes.STRING(50)
     },
+    active:{
+        type: DataTypes.BOOLEAN,
+        allowNull:true,
+        defaultValue: true,
+    }
 },
 {
     tableName:"Users",

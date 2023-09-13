@@ -39,6 +39,10 @@ Messages.init({
         allowNull:true,
         defaultValue: false,
     },
+    ShortCode:{
+        type:DataTypes.STRING(200),
+        allowNull:true
+    },
     ConfirmedBy:{
         type: DataTypes.STRING(200),
         allowNull:true
