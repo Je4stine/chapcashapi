@@ -56,6 +56,7 @@ app.get('/api/getall', AuthController.getUsers);
 app.post('/api/activate', AuthController.activate);
 app.post('/api/deactivate', AuthController.deactivate);
 app.post('/api/adminUser', AuthController.getUserByAdmin);
+app.post('/api/userDetails', AuthController.getUserDetails);
 
 app.get('/api/allMessages', MessageController.allMessages);
 app.get('/api/complete', MessageController.complete);

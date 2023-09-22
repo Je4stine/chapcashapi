@@ -169,3 +169,17 @@ exports.getUserByAdmin = async(req, res)=>{
     res.status(500).json(error)
   }
 }
+
+
+exports.getUserDetails = async (req, res) =>{
+  const {email} = req.body
+  try{
+    const userDetails = await Users.findOne({ where:{
+      email: email
+    }})
+
+    await res.json(userDetails)
+  }catch(error){
+    res.status(500).json(error)
+  }
+}
