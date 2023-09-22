@@ -62,7 +62,7 @@ exports.signup = async (req, res) => {
         expiresIn: "1h",
       });
   
-      res.json({ token, message: "Login success", user: user.email, name: user.name, phone: user.phonenumber, image: user.image, url: user.imageUrl, role: user.role, shopcode: user.shopcode });
+      res.json({ token, message: "Login success", user: user.email, name: user.name, phone: user.phonenumber, image: user.image, url: user.imageUrl, role: user.role, shopcode: user.shopcode, active: user.active });
     } catch (error) {
       res.status(500).json(error);
     }
@@ -128,7 +128,7 @@ exports.activate = async(req, res)=>{
 
     await person.update({active: true});
 
-    res.status(200).json({ message: "Users confirmed"})
+    res.status(200).json({ message: "Users activated"})
 
   }catch(error){
     res.status(500).json(error)
@@ -164,7 +164,7 @@ exports.getUserByAdmin = async(req, res)=>{
         shopcode: shopcode
     }})
     console.log(adminUsers)
-    res.status(200).json(adminUsers)
+    res.json(adminUsers)
   } catch(error){
     res.status(500).json(error)
   }
