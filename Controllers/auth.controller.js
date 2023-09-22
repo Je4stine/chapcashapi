@@ -114,3 +114,58 @@ exports.getUsers = async (req, res)=>{
     res.status(500).json(error)
   }
 }
+
+
+//Activete user
+exports.activate = async(req, res)=>{
+  const { email } = req.body
+  try{
+    const person = await Users.findOne({
+      where: {
+        email: email
+      }
+    })
+
+    await person.update({active: true});
+
+    res.status(200).json({ message: "Users confirmed"})
+
+  }catch(error){
+    res.status(500).json(error)
+  }
+}
+
+
+// Deativate User
+exports.deactivate =async(req, res)=>{
+  const {email } = req.body;
+  try{
+    const deactiveate = await Users.findOne({
+      where: {
+        email: email
+      }
+    })
+
+    await deactiveate.update({ active: false})
+    res.status(200).json({ message: "User Deactivated"})
+
+  }catch(error){
+    res.status(500).json(error)
+  }
+}
+
+
+// Show users by admin
+
+exports.getUserByAdmin = async(req, res)=>{
+  const {role, shopcode } = req.body
+  try{
+    const adminUsers = Users.findAll({where:{
+        shopcode: shopcode
+    }})
+    console.log(adminUsers)
+    res.status(200).json(adminUsers)
+  } catch(error){
+    res.status(500).json(error)
+  }
+}

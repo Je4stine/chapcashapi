@@ -48,12 +48,14 @@ app.use(function(req, res, next) {
    
 
 
-
 // Routes 
 app.post('/api/signin', AuthController.signin);
 app.post('/api/signup', AuthController.signup);
 app.post('/api/reset', AuthController.changePassword);
 app.get('/api/getall', AuthController.getUsers);
+app.post('/api/activate', AuthController.activate);
+app.post('/api/deactivate', AuthController.deactivate);
+app.post('/api/adminUser', AuthController.getUserByAdmin);
 
 app.get('/api/allMessages', MessageController.allMessages);
 app.get('/api/complete', MessageController.complete);
