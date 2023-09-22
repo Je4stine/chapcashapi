@@ -160,7 +160,7 @@ exports.deactivate =async(req, res)=>{
 exports.getUserByAdmin = async(req, res)=>{
   const {role, shopcode } = req.body
   try{
-    const adminUsers = Users.findAll({where:{
+    const adminUsers = await Users.findAll({where:{
         shopcode: shopcode
     }})
     console.log(adminUsers)
